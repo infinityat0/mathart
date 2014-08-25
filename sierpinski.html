@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+      var sierpinski = (function () {
+          var drawPoint = function (x, y) {
+              context.fillRect(x, y, 1, 1);
+          },
+          // draws a line from pt a -> pt b
+          drawLine = function (a, b) {
+              context.beginPath();
+              context.moveTo(a[0], a[1]);
+              context.lineTo(b[0], b[1]);
+              context.stroke();
+          },
+          drawSierpinski = function (depth, a, b, c) {
+              if  (depth == 0) return;
+              else {
+                  var d = [(a[0] + b[0])/2, (a[1] + b[1])/2],
+                  e = [(a[0] + c[0])/2, (a[1] + c[1])/2],
+                  f = [(b[0] + c[0])/2, (b[1] + c[1])/2];
+                  drawLine(d, e);
+                  drawLine(d, f);
+                  drawLine(e, f);
+                  drawSierpinski(depth-1, a, d, e);
+                  drawSierpinski(depth-1, d, b, f);
+                  drawSierpinski(depth-1, e, f, c);
+              }
+          };
+
+          return {
+              draw: function(depth) {
+                  // two random numbers we would use to make two complimentary sides of triangle
+                  var r1 = Math.random() * 1000, r2 = Math.random() * 1000;
+                  // This should form a pretty good triangle
+                  var a = [0,0], b = [r1, r2], c = [r2, r1];
+                  drawSierpinski(depth | 10, a, b, c);
+              }
+          };
+      })();
+      sierpinski.draw(10);
+    </script>
+  </body>
+</html>    
