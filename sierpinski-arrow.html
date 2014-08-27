@@ -5,14 +5,6 @@
     <script>
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
-      function sleep (milliseconds) {
-        var start = new Date().getTime();
-        for (var i = 0; i < 1e7; i++) {
-          if ((new Date().getTime() - start) > milliseconds){
-            break;
-          }
-        }
-      };
       var sierpinski = (function () {
           var start = "A", 
           aTransform = "B-A-B", // A -> B - A - B
@@ -70,15 +62,7 @@
             }
           };
       })();
-      (function bootstrap() {
-        var n = 0;
-        while (n < 10) {
-          context.clearRect(0,0, canvas.width, canvas.height);
-          n += 1;
-          sierpinski.draw(n);
-          sleep(1000);
-        }
-      })();
+      sierpinski.draw(8);
     </script>
   </body>
 </html> 
