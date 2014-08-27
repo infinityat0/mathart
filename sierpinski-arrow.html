@@ -5,7 +5,14 @@
     <script>
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
-
+      function sleep (milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > milliseconds){
+            break;
+          }
+        }
+      };
       var sierpinski = (function () {
           var start = "A", 
           aTransform = "B-A-B", // A -> B - A - B
@@ -26,11 +33,11 @@
           },
           // This will render the sequence
           render = function (sequence, length) {
-            console.log("sequence=" + sequence + ", length=" + length);
+            // console.log("sequence=" + sequence + ", length=" + length);
             var fract = Math.PI / 180,
-            angles = [0, -60 * fract, -120 * fract, -180 * Math.PI, -240 * fract, -300 * fract],
+            angles = [0, 60 * fract, 120 * fract, 180 * fract, 240 * fract, 300 * fract],
             angleIndex = 12, 
-            start = [200, 200];
+            start = [400, 500];
 
             for (var i = 0; i < sequence.length; i += 1) {
               switch(sequence.charAt(i)) {
@@ -40,9 +47,9 @@
                   start = drawLine(start, length, angles[angleIndex % angles.length]);
                   break;
                 // turn right
-                case '+': angleIndex += 1; console.log(angleIndex); break;
+                case '+': angleIndex += 1; break;
                 // turn left
-                case '-': angleIndex -= 1; console.log(angleIndex); break;
+                case '-': angleIndex -= 1; break;
                 // do nothing 
                 default: 
               }
@@ -59,10 +66,19 @@
 
           return {
             draw: function(depth) {
-              createSequence("A", depth || 10, 30); // 300 / (depth || 10));
+              createSequence("A", depth || 10, 500 / Math.pow(2, (depth || 10)));
             }
           };
       })();
+      (function bootstrap() {
+        var n = 0;
+        while (n < 10) {
+          context.clearRect(0,0, canvas.width, canvas.height);
+          n += 1;
+          sierpinski.draw(n);
+          sleep(1000);
+        }
+      })();
     </script>
   </body>
-</html>    
+</html> 
