@@ -46,7 +46,7 @@
                   var r1 = Math.random() * 1000, r2 = Math.random() * 1000;
                   // This should form a pretty good triangle
                   var a = [0,0], b = [r1, r2], c = [r2, r1];
-                  drawSierpinski(depth | 10, a, b, c);
+                  drawSierpinski(depth || 10, a, b, c);
               }
           };
       })();

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+  <body>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+      var sierpinski = (function () {
+          var start = "A", 
+          aTransform = "B-A-B", // A -> B - A - B
+          bTransform = "A+B+A", // B -> A + B + A
+          createSequence = function (sequence, depth, length) {
+            if (depth == 0) render(sequence, length);
+            else {
+              var newSequence = "" ;
+              for (var i = 0; i < sequence.length; i += 1) {
+                switch(sequence.charAt(i)) {
+                  case 'A': newSequence += aTransform; break; 
+                  case 'B': newSequence += bTransform; break;
+                  default:  newSequence += sequence.charAt(i);
+                }
+              }
+              createSequence(newSequence, depth - 1, length);
+            }
+          },
+          // This will render the sequence
+          render = function (sequence, length) {
+            console.log("sequence=" + sequence + ", length=" + length);
+            var fract = Math.PI / 180,
+            angles = [0, -60 * fract, -120 * fract, -180 * Math.PI, -240 * fract, -300 * fract],
+            angleIndex = 12, 
+            start = [200, 200];
+
+            for (var i = 0; i < sequence.length; i += 1) {
+              switch(sequence.charAt(i)) {
+                // Move forward for both the cases
+                case 'A':
+                case 'B':
+                  start = drawLine(start, length, angles[angleIndex % angles.length]);
+                  break;
+                // turn right
+                case '+': angleIndex += 1; console.log(angleIndex); break;
+                // turn left
+                case '-': angleIndex -= 1; console.log(angleIndex); break;
+                // do nothing 
+                default: 
+              }
+            }
+          },
+          drawLine = function (start, length, angle) {
+            var end = [start[0] + length * Math.cos(angle), start[1] + length * Math.sin(angle)];
+            context.beginPath();
+            context.moveTo(start[0], start[1]);
+            context.lineTo(end[0], end[1]);
+            context.stroke();
+            return end;
+          };
+
+          return {
+            draw: function(depth) {
+              createSequence("A", depth || 10, 30); // 300 / (depth || 10));
+            }
+          };
+      })();
+    </script>
+  </body>
+</html>    
