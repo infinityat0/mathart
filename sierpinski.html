@@ -25,7 +25,7 @@
           },
           // This will render the sequence
           render = function (sequence, length) {
-            // console.log("sequence=" + sequence + ", length=" + length);
+            console.log("sequence=" + sequence + ", length=" + length);
             var fract = Math.PI / 180,
             angles = [0, 60 * fract, 120 * fract, 180 * fract, 240 * fract, 300 * fract],
             angleIndex = 12, 
@@ -57,12 +57,14 @@
           };
 
           return {
+            renderSeq: function(sequence, length) {
+              render(sequence, length);
+            },
             draw: function(depth) {
               createSequence("A", depth || 10, 500 / Math.pow(2, (depth || 10)));
             }
           };
       })();
-      sierpinski.draw(5);
     </script>
   </body>
 </html> 

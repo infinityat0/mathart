@@ -41,20 +41,29 @@ var graphics = (function (){
 })(); 
 
 var lTransforms = (function (){
+  var generate = function(depth, start, patterns, substitutions) {
+    if (depth == 0) return start;
+    else {
+      for (var i = 0; i < patterns.length; i += 1) {
+        start = start.replace(patterns[i], substitutions[i]);
+      }
+      return generate(depth - 1, start, patterns, substitutions);
+    }
+  };
+
   return {
     // Call this method with initial condidtion and substitutions
     // e.g generateSeq(depth, "A+B+A", "A->A-B+A". "B->A-B-A")
-    generateSeq: function (depth, start, substitutions) {
-      if (depth == 0) return start;
-      else {
-        for (var i = 0; i < substitutions.length; i += 1) {
-          var letters = [], subs = [];
-          var patterns = substitutions[i].split("->");
-          letters.push(patterns[0]);
-          subs.push(patterns[1]);
-        }
-        
+    generateSeq: function () {
+      var args = Array.prototype.slice.call(arguments), 
+      depth = args[0], start = args[1], substitutions = args.slice(2),
+      patterns = [], subs = [];
+      for (var i = 0; i < substitutions.length; i = i + 1) {
+        var letterAndSubs = substitutions[i].split("->");
+        patterns.push(new RegExp(letterAndSubs[0], "g"));
+        subs.push(letterAndSubs[1]);
       }
+      return generate(depth, start, patterns, subs);
     }
   };
 })();
