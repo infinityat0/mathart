@@ -1,22 +1,20 @@
 <!DOCTYPE HTML>
 <html>
   <body>
-    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <canvas id="canvas" width="2000" height="2000"></canvas>
     <script>
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
-      var sierpinski = (function () {
+      var levi = (function () {
           var start = "A", 
-          aTransform = "B-A-B", // A -> B - A - B
-          bTransform = "A+B+A", // B -> A + B + A
+          transform = "+A--A+",
           createSequence = function (sequence, depth, length) {
             if (depth == 0) render(sequence, length);
             else {
               var newSequence = "" ;
               for (var i = 0; i < sequence.length; i += 1) {
                 switch(sequence.charAt(i)) {
-                  case 'A': newSequence += aTransform; break; 
-                  case 'B': newSequence += bTransform; break;
+                  case 'A': newSequence += transform; break; 
                   default:  newSequence += sequence.charAt(i);
                 }
               }
@@ -27,15 +25,14 @@
           render = function (sequence, length) {
             // console.log("sequence=" + sequence + ", length=" + length);
             var fract = Math.PI / 180,
-            angles = [0, 60 * fract, 120 * fract, 180 * fract, 240 * fract, 300 * fract],
-            angleIndex = 12, 
-            start = [400, 500];
+            angles = [0, 45 * fract, 90 * fract, 135 * fract, 180 * fract, 225 * fract, 270 * fract, 315 * fract],
+            angleIndex = 16, 
+            start = [500, 700];
 
             for (var i = 0; i < sequence.length; i += 1) {
               switch(sequence.charAt(i)) {
                 // Move forward for both the cases
                 case 'A':
-                case 'B':
                   start = drawLine(start, length, angles[angleIndex % angles.length]);
                   break;
                 // turn right
@@ -58,11 +55,12 @@
 
           return {
             draw: function(depth) {
-              createSequence("A", depth || 10, 500 / Math.pow(2, (depth || 10)));
+              var d = depth || 10
+              createSequence(start, d, 500 / Math.pow(2, (d - 1)/2));
             }
           };
       })();
-      sierpinski.draw(5);
+      levi.draw(14);
     </script>
   </body>
 </html> 

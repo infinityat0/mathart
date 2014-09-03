@@ -1,22 +1,20 @@
 <!DOCTYPE HTML>
 <html>
   <body>
-    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <canvas id="canvas" width="2000" height="2000"></canvas>
     <script>
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
       var sierpinski = (function () {
-          var start = "A", 
-          aTransform = "B-A-B", // A -> B - A - B
-          bTransform = "A+B+A", // B -> A + B + A
+          var start = "A++A++A", 
+          transform = "A-A++A-A", // A -> A - A ++ A - A
           createSequence = function (sequence, depth, length) {
             if (depth == 0) render(sequence, length);
             else {
               var newSequence = "" ;
               for (var i = 0; i < sequence.length; i += 1) {
                 switch(sequence.charAt(i)) {
-                  case 'A': newSequence += aTransform; break; 
-                  case 'B': newSequence += bTransform; break;
+                  case 'A': newSequence += transform; break; 
                   default:  newSequence += sequence.charAt(i);
                 }
               }
@@ -29,7 +27,7 @@
             var fract = Math.PI / 180,
             angles = [0, 60 * fract, 120 * fract, 180 * fract, 240 * fract, 300 * fract],
             angleIndex = 12, 
-            start = [400, 500];
+            start = [200, 700];
 
             for (var i = 0; i < sequence.length; i += 1) {
               switch(sequence.charAt(i)) {
@@ -58,7 +56,8 @@
 
           return {
             draw: function(depth) {
-              createSequence("A", depth || 10, 500 / Math.pow(2, (depth || 10)));
+              var d = depth || 10
+              createSequence(start, d, 500 / Math.pow(3, d -1));
             }
           };
       })();
