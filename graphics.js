@@ -40,14 +40,17 @@ var graphics = (function (){
   };
 })(); 
 
-var lTransforms = (function (){
-  var generate = function(depth, start, patterns, substitutions) {
+var lTransforms = (function () {
+  var generate = function(depth, start, subs) {
     if (depth == 0) return start;
     else {
-      for (var i = 0; i < patterns.length; i += 1) {
-        start = start.replace(patterns[i], substitutions[i]);
+      var seq = "", sub;
+      for (var i = 0; i < start.length; i += 1) {
+        sub = subs[start.charCodeAt(i) - 48]
+        if (sub) seq += sub ; 
+        else seq += start[i];
       }
-      return generate(depth - 1, start, patterns, substitutions);
+      return generate(depth -1, seq, subs);
     }
   };
 
@@ -57,13 +60,14 @@ var lTransforms = (function (){
     generateSeq: function () {
       var args = Array.prototype.slice.call(arguments), 
       depth = args[0], start = args[1], substitutions = args.slice(2),
-      patterns = [], subs = [];
-      for (var i = 0; i < substitutions.length; i = i + 1) {
-        var letterAndSubs = substitutions[i].split("->");
-        patterns.push(new RegExp(letterAndSubs[0], "g"));
-        subs.push(letterAndSubs[1]);
+      subs = [];
+      for (var i = 0; i < substitutions.length; i += 1) {
+        var patterns = substitutions[i].split("->");
+        // This puts the substitution at the index of the pattern. 
+        // This wastes array space (upto 254 entries) but it's superfast in lookups
+        subs[patterns[0].charCodeAt(0) - 48 /* '0'.charCodeAt(0) */] = patterns[1];
       }
-      return generate(depth, start, patterns, subs);
+      return generate(depth, start, subs);
     }
   };
 })();
