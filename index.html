@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+     <title> L System </title>
+     <script type="text/javascript" src="js/graphics.js"></script>
+  </head>
+  <body>
+    <div>
+      <label for="startX">start x</label>
+      <input type="text" id="startX" name="startX" value="50" />
+      <label for="startY">start Y</label>
+      <input type="text" id="startY" name="startY" value="100" />
+      <label for="slider">Depth</label>
+      <input type="range" id="slider" name="slider" min="1" max="10"/>
+      <label for="strike-color">Color</label>
+      <input type="color" id="strike-color" name="strike-color" value="#aabbcc" />
+      <label for="strike-length">Line Length</label>
+      <input type="text" id="strike-length" name="strike-length" value=10 />
+      <label for="axiom">Axiom</label>
+      <input type="text" id="axiom" name="axiom" value="A"/>
+      <label for="a-transform">A -> </label>
+      <input type="text" id="a-transform" name="a-transform" value="-BF+AFA+FB-" />
+      <label for="b-transform">B -> </label>
+      <input type="text" id="b-transform" name="b-transform" value="+AF-BFB-FA+" />
+      <label for="angle">Angle </label>
+      <input type="text" id="angle" name="angle" value="90"/>
+    </div>
+    <canvas id="canvas" width="1600" height="1600"></canvas>
+    <script>
+      let slider = document.getElementById('slider');
+      slider.oninput = function() {
+        new Page().render();
+      }
+    </script>
+  </body>
+</html> 
