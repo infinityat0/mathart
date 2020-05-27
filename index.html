@@ -11,19 +11,20 @@
         for (let elem of elems) {
           elem.oninput = page.render;
         }
+        page.render();
       });
     </script>
   </head>
   <body>
     <div>
       <label for="startX">start x</label>
-      <input type="text" id="startX" name="startX" value="50" />
+      <input type="text" id="startX" name="startX" value="200" />
       <label for="startY">start Y</label>
-      <input type="text" id="startY" name="startY" value="100" />
+      <input type="text" id="startY" name="startY" value="700" />
       <label for="slider">Depth</label>
-      <input type="range" id="slider" name="slider" min="1" max="10"/>
+      <input type="range" id="slider" name="slider" min="1" max="10" value="6"/>
       <label for="strike-color">Color</label>
-      <input type="color" id="strike-color" name="strike-color" value="#aabbcc" />
+      <input type="color" id="strike-color" name="strike-color" value="#DC2E16" />
       <label for="strike-length">Line Length</label>
       <input type="text" id="strike-length" name="strike-length" value=10 />
       <label for="axiom">Axiom</label>
@@ -33,7 +34,7 @@
       <label for="b-transform">B -> </label>
       <input type="text" id="b-transform" name="b-transform" value="+AF-BFB-FA+" />
       <label for="angle">Angle </label>
-      <input type="text" id="angle" name="angle" value="90"/>
+      <input type="text" id="angle" name="angle" value="89"/>
     </div>
     <canvas id="canvas" width="1600" height="1600"></canvas>
   </body>
